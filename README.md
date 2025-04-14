@@ -1,54 +1,112 @@
-# React + TypeScript + Vite
+# Task Manager App
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A full-stack task management application built with **React (TypeScript)** on the frontend, **Express + Prisma + PostgreSQL** on the backend, and styled with a mix of **inline styles** and component-level CSS.
 
-Currently, two official plugins are available:
+---
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## Features
 
-## Expanding the ESLint configuration
+- Create, read, update, and delete tasks
+- Filter tasks by **All**, **Completed**, and **Pending**
+- Persistent data with PostgreSQL
+- Clean API structure with Express + Prisma
+- Responsive and simple UI
+- Modern TypeScript-first development
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+---
 
-```js
-export default tseslint.config({
-  extends: [
-    // Remove ...tseslint.configs.recommended and replace with this
-    ...tseslint.configs.recommendedTypeChecked,
-    // Alternatively, use this for stricter rules
-    ...tseslint.configs.strictTypeChecked,
-    // Optionally, add this for stylistic rules
-    ...tseslint.configs.stylisticTypeChecked,
-  ],
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
+## Project Structure
+```
+task-manager/
+├── src/
+│   ├── index.ts           # Express server entry point
+│   ├── routes/
+│   │   └── task.ts        # Task CRUD API endpoints
+│   ├── components/
+│   │   ├── TaskList.tsx   # Main task list component
+│   │   └── TaskCard.tsx   # Single task UI card
+│   └── utils.ts           # Shared types and styles
+├── prisma/
+│   └── schema.prisma      # Prisma DB schema
+├── client/                # React frontend
+├── .env                   # DB connection string
+├── package.json
+└── README.md
+---
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+## Tech Stack
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+| Layer        | Technology              |
+|--------------|--------------------------|
+| Frontend     | React (TypeScript)       |
+| Backend      | Express.js               |
+| DB ORM       | Prisma                   |
+| Database     | PostgreSQL               |
+| Runtime      | Node.js, Vite, tsx       |
 
-export default tseslint.config({
-  plugins: {
-    // Add the react-x and react-dom plugins
-    'react-x': reactX,
-    'react-dom': reactDom,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended typescript rules
-    ...reactX.configs['recommended-typescript'].rules,
-    ...reactDom.configs.recommended.rules,
-  },
-})
+---
+
+## Setup Instructions
+
+### 1. **Clone the repository**
+```bash
+git clone https://github.com/your-username/task-manager.git
+cd task-manager
 ```
+
+### 2. **Install dependencies**
+```bash
+npm install
+```
+### 3. **Start PostgreSQL** 
+If you’re on macOS:
+```bash
+brew services start postgresql
+createdb mydb
+```
+Or manually using psql:
+```bash
+psql -U youruser
+CREATE DATABASE mydb;
+```
+
+### 4. **Configure environment variables**  
+
+Create a .env file in the project root:
+```bash
+DATABASE_URL="postgresql://youruser:yourpassword@localhost:5432/mydb"
+```
+
+### 5. **Run migrations and generate the Prisma client in src/ folder** 
+```bash
+npx prisma migrate dev --name init
+npx prisma generate
+```
+
+### 6. **(Optional) Seed the database with sample tasks** 
+
+To insert seed data into your database:
+```bash
+npx prisma db seed
+```
+
+### 7. **Start the backend server** 
+API will be live at: http://localhost:4000/api/tasks
+```bash
+npm run server
+```
+
+### 8. **Start the frontend** 
+Frontend will be live at: http://localhost:5173
+```bash
+npm run dev
+```
+
+## Design Decisions
+- PostgreSQL was chosen as a SQL database great for structured data, relational queries, and long-term scalability.
+- Vite was used as the frontend build tool for its lightning-fast dev server and native React + TypeScript support.
+- TypeScript ensures end-to-end type safety across both frontend and backend.
+- Prisma provides a type-safe, developer-friendly ORM with built-in migrations and seeding.
+- ES Modules + tsx enable modern syntax and a clean, no-build server dev experience.
+- Inline styles were used for quick prototyping and scoped component styling without external CSS dependencies.
